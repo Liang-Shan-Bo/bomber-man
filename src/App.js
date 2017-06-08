@@ -19,7 +19,7 @@ class App extends Component {
     const { maps } = this.state;
     return (
       <div>
-        {maps.map(type => <Map type={type} />)}
+        {maps.map((type, i) => <Map key={i} index={i} type={type} />)}
       </div>
     );
   }
