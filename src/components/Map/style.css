@@ -1,0 +1,40 @@
+.map {
+  background:url(map.png);
+  background-repeat:no-repeat;
+  height: 32px;
+  width: 32px;
+  vertical-align: text-top;
+  float:left;
+}
+
+.map-lawn {
+  background-position: 0px 0px;
+}
+
+.map-wall {
+  background-position: -32px 0px;
+}
+
+.map-iron {
+  background-position: -64px 0px;
+}
+
+.map-door {
+  background-position: -96px 0px;
+}
+
+.map-power {
+  background-position: 0px -32px;
+}
+
+.map-plural {
+  background-position: -32px -32px;
+}
+
+.map-speed {
+  background-position: -64px -32px;
+}
+
+.map-control {
+  background-position: -96px -32px;
+}

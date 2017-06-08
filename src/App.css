@@ -1,0 +1,10 @@
+.main{
+    width: 288px;
+    height: 160px;
+    background-color: black;
+    text-align: center;
+    margin:0 auto;
+    border-color: black;
+    border: 5px;
+    border-style: solid;
+}
