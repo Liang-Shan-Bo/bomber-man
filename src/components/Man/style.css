@@ -1,0 +1,25 @@
+.man {
+  background:url(man.png);
+  background-repeat:no-repeat;
+  height: 32px;
+  width: 32px;
+  vertical-align: text-top;
+  position: absolute;
+}
+
+.man-left {
+  background-position: -64px 0px;
+}
+
+.man-right {
+  background-position: -32px 0px;
+}
+
+.man-top {
+  background-position: 0px 0px;
+}
+
+.man-down {
+  background-position: -96px 0px;
+}
+
