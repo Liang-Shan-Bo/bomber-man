@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import './style.css';
-
-const side = 32;
+import { connect } from 'react-redux';
+import Lattice from './Lattice';
 
 class Map extends Component {
-  render() {
-    const { x, y, type } = this.props
-    const [left, top] = [x * side, y * side]
+  getMaps = () => {
+    const result = []
+    this.props.map.maps.forEach((arr, i) => {
+      arr.forEach((type, j) => {
+        result.push(<Lattice key={i * 9 + j} x={j} y={i} type={type} />)
+      })
+    })
+    return result;
+  }
+  
+  render(){
     return (
-      <div
-        style={{ left, top }}
-        className={`map map-${type}`}
-      />
-    );
+      <div>
+        {this.getMaps()}
+      </div>
+    )
   }
 }
 
-export default Map;
+export default connect(
+  state => ({map: state.map})
+)(Map)

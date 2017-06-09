@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {manMove} from '../../action';
 import './style.css';
 
 const side = 32;
-let man = { x: 0, y: 0, type: 'left' };
 
 class Man extends Component {
-  state = {
-    man: man
-  }
 
   // 移动
-  move = (key) => {
-    switch (key) {
+  move = ({keyCode}) => {
+    const { man, dispatch} = this.props
+    switch (keyCode) {
       case 38:
         // 上
         man.y--;
@@ -31,20 +30,15 @@ class Man extends Component {
       default:
         break
     }
-    this.setState({
-      man: man
-    })
+    dispatch(manMove(man))
   }
 
   componentDidMount() {
-    let man = this;
-    document.addEventListener('keyup', function (e) {
-      man.move(e.keyCode);
-    })
+    document.addEventListener('keydown', this.move.bind(this))
   }
 
   render() {
-    const { x, y, type } = man
+    const { x, y, type } = this.props.man
     const [left, top] = [x * side, y * side]
     return (
       <div
@@ -55,4 +49,6 @@ class Man extends Component {
   }
 }
 
-export default Man;
+export default connect(
+  state => ({man: state.man})
+)(Man);
