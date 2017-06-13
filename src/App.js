@@ -5,12 +5,15 @@ import './App.css';
 
 class App extends Component {
 
-  state = {
-    maps: [['lawn', 'wall', 'lawn', 'lawn', 'lawn', 'power', 'wall', 'lawn', 'lawn'],
-          ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
-          ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
-          ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
-          ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']]
+  constructor() {
+    super();
+    this.state = {
+      maps: [['lawn', 'lawn', 'lawn', 'lawn', 'lawn', 'power', 'wall', 'lawn', 'lawn'],
+            ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
+            ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
+            ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
+            ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
+    }
   }
 
   getMaps = () => {
@@ -30,7 +33,7 @@ class App extends Component {
     return (
       <div>
         {this.getMaps()}
-        <Man/>
+        <Man maps={this.state.maps} />
       </div>
     );
   }

@@ -15,7 +15,7 @@
   background-position: -32px 0px;
 }
 
-.man-top {
+.man-up {
   background-position: 0px 0px;
 }
 
@@ -23,3 +23,30 @@
   background-position: -96px 0px;
 }
 
+@keyframes left {
+    0% { background-position: -64px 0px;}
+    33.3%{ background-position: 0px -64px;}
+    66.7% {background-position: -32px -64px;}
+    100% {background-position: -64px 0px;}
+}
+
+@keyframes right {
+    0% { background-position: -32px 0px;}
+    33.3%{ background-position: -64px -32px;}
+    66.7% {background-position: -96px -32px;}
+    100% {background-position: -32px 0px;}
+}
+
+@keyframes up {
+    0% { background-position: 0px 0px;}
+    33.3%{ background-position: 0px -32px;}
+    66.7% {background-position: -32px -32px;}
+    100% {background-position: 0px 0px;}
+}
+
+@keyframes down {
+    0% { background-position: -96px 0px;}
+    33.3%{ background-position: -64px -64px;}
+    66.7% {background-position: -96px -64px;}
+    100% {background-position: -96px 0px;}
+}
