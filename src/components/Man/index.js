@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import './style.css';
 
 const side = 32;
-const man = { x: 0, y: 0, direction: 'stop', type: 'left' };
+const man = { x: 0, y: 0, type: 'left' };
 let moveFlag = -1;
 
 class Man extends Component {
@@ -31,9 +31,9 @@ class Man extends Component {
         // 上
         man.type = 'up';
         if (man.x % 1 !== 0) {
-          if (man.x % 1 > 0.6) {
+          if (man.x % 1 > 0.65) {
             man.x = this.parseToFixed(man.x, 1);
-          } else if (man.x % 1 < 0.4) {
+          } else if (man.x % 1 < 0.35) {
             man.x = this.parseToFixed(man.x, 0);
           }
         } else {
@@ -47,9 +47,9 @@ class Man extends Component {
         //左
         man.type = 'left';
         if (man.y % 1 !== 0) {
-          if (man.y % 1 > 0.6) {
+          if (man.y % 1 > 0.65) {
             man.y = this.parseToFixed(man.y, 1);
-          } else if (man.y % 1 < 0.4) {
+          } else if (man.y % 1 < 0.35) {
             man.y = this.parseToFixed(man.y, 0);
           }
         } else {
@@ -63,9 +63,9 @@ class Man extends Component {
         // 右
         man.type = 'right';
         if (man.y % 1 !== 0) {
-          if (man.y % 1 > 0.6) {
+          if (man.y % 1 > 0.65) {
             man.y = this.parseToFixed(man.y, 1);
-          } else if (man.y % 1 < 0.4) {
+          } else if (man.y % 1 < 0.35) {
             man.y = this.parseToFixed(man.y, 0);
           }
         } else {
@@ -79,9 +79,9 @@ class Man extends Component {
         // 下
         man.type = 'down';
         if (man.x % 1 !== 0) {
-          if (man.x % 1 > 0.6) {
+          if (man.x % 1 > 0.65) {
             man.x = this.parseToFixed(man.x, 1);
-          } else if (man.x % 1 < 0.4) {
+          } else if (man.x % 1 < 0.35) {
             man.x = this.parseToFixed(man.x, 0);
           }
         } else {
