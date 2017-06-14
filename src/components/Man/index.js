@@ -22,7 +22,7 @@ class Man extends Component {
   }
 
   setBomb = (x, y) => {
-    this.props.setBombs(x, y);
+    this.props.setBombs(Math.round(x), Math.round(y));
   }
 
   // 移动

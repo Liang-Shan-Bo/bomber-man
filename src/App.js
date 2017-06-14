@@ -14,6 +14,7 @@ class App extends Component {
       ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
       ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
+      bombs: new Set(),
     }
   }
 
@@ -27,8 +28,15 @@ class App extends Component {
     return result;
   }
 
+  getBombs = () => {
+    const result = []
+    this.state.bombs.forEach((i) => result.push(<Bomb key={i} x={Math.trunc(i / 9)} y={i % 9}/>))
+    return result;
+  }
+
   setBombs = (x, y) => {
-    console.log('x=:' + x)
+    this.state.bombs.add(x + y * 9)
+    this.getBombs()
   }
 
   componentDidMount() {
@@ -39,7 +47,8 @@ class App extends Component {
     return (
       <div>
         {this.getMaps()}
-        <Man ref={man => this.man = man} maps={this.state.maps} />
+        {this.getBombs()}
+        <Man setBombs={this.setBombs} maps={this.state.maps} />
       </div>
     );
   }
