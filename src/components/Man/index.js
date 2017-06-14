@@ -31,7 +31,7 @@ class Man extends Component {
         // 上
         type = 'up';
         if (x % 1 !== 0) {
-          if (x % 1 > 0.6) {
+          if (x % 1 > 0.65) {
             x = this.parseToFixed(x, 1);
           } else if (x % 1 < 0.35) {
             x = this.parseToFixed(x, 0);
@@ -47,7 +47,7 @@ class Man extends Component {
         //左
         type = 'left';
         if (y % 1 !== 0) {
-          if (y % 1 > 0.6) {
+          if (y % 1 > 0.65) {
             y = this.parseToFixed(y, 1);
           } else if (y % 1 < 0.35) {
             y = this.parseToFixed(y, 0);
@@ -63,7 +63,7 @@ class Man extends Component {
         // 右
         type = 'right';
         if (y % 1 !== 0) {
-          if (y % 1 > 0.6) {
+          if (y % 1 > 0.65) {
             y = this.parseToFixed(y, 1);
           } else if (y % 1 < 0.35) {
             y = this.parseToFixed(y, 0);
@@ -79,7 +79,7 @@ class Man extends Component {
         // 下
         type = 'down';
         if (x % 1 !== 0) {
-          if (x % 1 > 0.6) {
+          if (x % 1 > 0.65) {
             x = this.parseToFixed(x, 1);
           } else if (x % 1 < 0.35) {
             x = this.parseToFixed(x, 0);
