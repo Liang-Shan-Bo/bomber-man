@@ -107,7 +107,7 @@ class Man extends Component {
   componentDidMount() {
     const node = findDOMNode(this.man);
     // 键盘按下事件
-    document.addEventListener('keydown', ({keyCode}) => {moveFlag = keyCode})
+    document.addEventListener('keydown', ({keyCode}) => moveFlag = keyCode)
     // 键盘抬起事件
     document.addEventListener('keyup', () => moveFlag = -1)
     // 动画结束事件
