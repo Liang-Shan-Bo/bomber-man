@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Map from './components/Map';
 import Man from './components/Man';
+import Bomb from './components/Bomb';
 import './App.css';
 
 class App extends Component {
@@ -9,10 +10,10 @@ class App extends Component {
     super();
     this.state = {
       maps: [['lawn', 'lawn', 'lawn', 'lawn', 'lawn', 'power', 'wall', 'lawn', 'lawn'],
-            ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
-            ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
-            ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
-            ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
+      ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
+      ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
+      ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
+      ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
     }
   }
 
@@ -26,14 +27,19 @@ class App extends Component {
     return result;
   }
 
+  setBombs = (x, y) => {
+    console.log('x=:' + x)
+  }
+
   componentDidMount() {
+
   }
 
   render() {
     return (
       <div>
         {this.getMaps()}
-        <Man maps={this.state.maps} />
+        <Man ref={man => this.man = man} maps={this.state.maps} />
       </div>
     );
   }

@@ -20,12 +20,17 @@ class Man extends Component {
       return Number.parseFloat((num + 0.1).toFixed(1));
     }
   }
+
+  setBomb = (x, y) => {
+    this.props.setBombs(x, y);
+  }
+
   // 移动
   move = key => {
     const node = findDOMNode(this.man);
-    const {maps} = this.props;
-    const {man} = this.state;
-    let {x, y, type } = man;
+    const { maps } = this.props;
+    const { man } = this.state;
+    let { x, y, type } = man;
     switch (key) {
       case 38:
         // 上
@@ -91,6 +96,10 @@ class Man extends Component {
         }
         node.style.webkitAnimation = 'down 0.25s steps(1, end) 1';
         break
+      case 32:
+        // 空格
+        this.setBomb(x, y);
+        break
       default:
         break
     }
@@ -106,7 +115,7 @@ class Man extends Component {
   componentDidMount() {
     const node = findDOMNode(this.man);
     // 键盘按下事件
-    document.addEventListener('keydown', ({keyCode}) => moveFlag = keyCode)
+    document.addEventListener('keydown', ({ keyCode }) => moveFlag = keyCode)
     // 键盘抬起事件
     document.addEventListener('keyup', () => moveFlag = -1)
     // 动画结束事件
@@ -116,14 +125,16 @@ class Man extends Component {
   }
 
   render() {
-    const { man: {x, y, type} } = this.state
+    const { man: { x, y, type } } = this.state
     const [left, top] = [x * side, y * side]
     return (
-      <div
-        ref={ man => this.man = man }
-        style={{ left, top }}
-        className={`man man-${type}`}
-      />
+      <div>
+        <div
+          ref={man => this.man = man}
+          style={{ left, top }}
+          className={`man man-${type}`}
+        />
+      </div>
     );
   }
 }
