@@ -3,16 +3,13 @@ import { findDOMNode } from 'react-dom';
 import './style.css';
 
 const side = 32;
-const man = { x: 0, y: 0, direction: 'stop', type: 'left' };
 let moveFlag = -1;
 
 class Man extends Component {
   constructor(props) {
     super(props);
-    const { maps } = props;
     this.state = {
-      man,
-      maps,
+      man: { x: 0, y: 0, direction: 'stop', type: 'left' },
     }
   }
 
@@ -26,67 +23,70 @@ class Man extends Component {
   // 移动
   move = key => {
     const node = findDOMNode(this.man);
+    const {maps} = this.props;
+    const {man} = this.state;
+    let {x, y, type } = man;
     switch (key) {
       case 38:
         // 上
-        man.type = 'up';
-        if (man.x % 1 !== 0) {
-          if (man.x % 1 > 0.6) {
-            man.x = this.parseToFixed(man.x, 1);
-          } else if (man.x % 1 < 0.4) {
-            man.x = this.parseToFixed(man.x, 0);
+        type = 'up';
+        if (x % 1 !== 0) {
+          if (x % 1 > 0.6) {
+            x = this.parseToFixed(x, 1);
+          } else if (x % 1 < 0.4) {
+            x = this.parseToFixed(x, 0);
           }
         } else {
-          if (man.y > 0 && ((man.y % 1 === 0 && this.props.maps[man.y - 1][man.x] === 'lawn') || man.y % 1 !== 0)) {
-            man.y = this.parseToFixed(man.y, 0);
+          if (y > 0 && ((y % 1 === 0 && maps[y - 1][x] === 'lawn') || y % 1 !== 0)) {
+            y = this.parseToFixed(y, 0);
           }
         }
         node.style.webkitAnimation = 'up 0.25s steps(1, end) 1';
         break
       case 37:
         //左
-        man.type = 'left';
-        if (man.y % 1 !== 0) {
-          if (man.y % 1 > 0.6) {
-            man.y = this.parseToFixed(man.y, 1);
-          } else if (man.y % 1 < 0.4) {
-            man.y = this.parseToFixed(man.y, 0);
+        type = 'left';
+        if (y % 1 !== 0) {
+          if (y % 1 > 0.6) {
+            y = this.parseToFixed(y, 1);
+          } else if (y % 1 < 0.4) {
+            y = this.parseToFixed(y, 0);
           }
         } else {
-          if (man.x > 0 && ((man.x % 1 === 0 && this.props.maps[man.y][man.x - 1] === 'lawn') || man.x % 1 !== 0)) {
-            man.x = this.parseToFixed(man.x, 0);
+          if (x > 0 && ((x % 1 === 0 && maps[y][x - 1] === 'lawn') || x % 1 !== 0)) {
+            x = this.parseToFixed(x, 0);
           }
         }
         node.style.webkitAnimation = 'left 0.25s steps(1, end) 1';
         break
       case 39:
         // 右
-        man.type = 'right';
-        if (man.y % 1 !== 0) {
-          if (man.y % 1 > 0.6) {
-            man.y = this.parseToFixed(man.y, 1);
-          } else if (man.y % 1 < 0.4) {
-            man.y = this.parseToFixed(man.y, 0);
+        type = 'right';
+        if (y % 1 !== 0) {
+          if (y % 1 > 0.6) {
+            y = this.parseToFixed(y, 1);
+          } else if (y % 1 < 0.4) {
+            y = this.parseToFixed(y, 0);
           }
         } else {
-          if (man.x < 8 && ((man.x % 1 === 0 && this.props.maps[man.y][man.x + 1] === 'lawn') || man.x % 1 !== 0)) {
-            man.x = this.parseToFixed(man.x, 1);
+          if (x < 8 && ((x % 1 === 0 && maps[y][x + 1] === 'lawn') || x % 1 !== 0)) {
+            x = this.parseToFixed(x, 1);
           }
         }
         node.style.webkitAnimation = 'right 0.25s steps(1, end) 1';
         break
       case 40:
         // 下
-        man.type = 'down';
-        if (man.x % 1 !== 0) {
-          if (man.x % 1 > 0.6) {
-            man.x = this.parseToFixed(man.x, 1);
-          } else if (man.x % 1 < 0.4) {
-            man.x = this.parseToFixed(man.x, 0);
+        type = 'down';
+        if (x % 1 !== 0) {
+          if (x % 1 > 0.6) {
+            x = this.parseToFixed(x, 1);
+          } else if (x % 1 < 0.4) {
+            x = this.parseToFixed(x, 0);
           }
         } else {
-          if (man.y < 4 && ((man.y % 1 === 0 && this.props.maps[man.y + 1][man.x] === 'lawn') || man.y % 1 !== 0)) {
-            man.y = this.parseToFixed(man.y, 1);
+          if (y < 4 && ((y % 1 === 0 && maps[y + 1][x] === 'lawn') || y % 1 !== 0)) {
+            y = this.parseToFixed(y, 1);
           }
         }
         node.style.webkitAnimation = 'down 0.25s steps(1, end) 1';
@@ -95,7 +95,12 @@ class Man extends Component {
         break
     }
     this.setState({
-      man,
+      man: {
+        ...man,
+        x,
+        y,
+        type,
+      },
     })
   }
 
@@ -112,7 +117,7 @@ class Man extends Component {
   }
 
   render() {
-    const { x, y, type } = man
+    const { man: {x, y, type} } = this.state
     const [left, top] = [x * side, y * side]
     return (
       <div
