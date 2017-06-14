@@ -9,7 +9,7 @@ class Man extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      man: { x: 0, y: 0, direction: 'stop', type: 'left' },
+      man: { x: 0, y: 0, type: 'left' },
     }
   }
 
@@ -33,7 +33,7 @@ class Man extends Component {
         if (x % 1 !== 0) {
           if (x % 1 > 0.6) {
             x = this.parseToFixed(x, 1);
-          } else if (x % 1 < 0.4) {
+          } else if (x % 1 < 0.35) {
             x = this.parseToFixed(x, 0);
           }
         } else {
@@ -49,7 +49,7 @@ class Man extends Component {
         if (y % 1 !== 0) {
           if (y % 1 > 0.6) {
             y = this.parseToFixed(y, 1);
-          } else if (y % 1 < 0.4) {
+          } else if (y % 1 < 0.35) {
             y = this.parseToFixed(y, 0);
           }
         } else {
@@ -65,7 +65,7 @@ class Man extends Component {
         if (y % 1 !== 0) {
           if (y % 1 > 0.6) {
             y = this.parseToFixed(y, 1);
-          } else if (y % 1 < 0.4) {
+          } else if (y % 1 < 0.35) {
             y = this.parseToFixed(y, 0);
           }
         } else {
@@ -81,7 +81,7 @@ class Man extends Component {
         if (x % 1 !== 0) {
           if (x % 1 > 0.6) {
             x = this.parseToFixed(x, 1);
-          } else if (x % 1 < 0.4) {
+          } else if (x % 1 < 0.35) {
             x = this.parseToFixed(x, 0);
           }
         } else {
@@ -96,7 +96,6 @@ class Man extends Component {
     }
     this.setState({
       man: {
-        ...man,
         x,
         y,
         type,
