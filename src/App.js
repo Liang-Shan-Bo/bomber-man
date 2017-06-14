@@ -35,9 +35,9 @@ class App extends Component {
   }
 
   setBombs = (x, y) => {
-    this.state.bombs.add(x + y * 9)
-    this.setState({
-      bombs: this.state.bombs,
+    this.setState(({bombs}) => {
+      bombs.add(x + y * 9);
+      return bombs;
     })
   }
 
