@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import './style.css';
 
 const side = 32;
-let man = { x: 0, y: 0, direction: 'stop', type: 'left' };
+const man = { x: 0, y: 0, direction: 'stop', type: 'left' };
 let moveFlag = -1;
 
 class Man extends Component {
@@ -24,9 +24,8 @@ class Man extends Component {
     }
   }
   // 移动
-  move = (key) => {
-    const node = findDOMNode(this.refs.man);
-
+  move = key => {
+    const node = findDOMNode(this.man);
     switch (key) {
       case 38:
         // 上
@@ -101,23 +100,15 @@ class Man extends Component {
   }
 
   componentDidMount() {
-    let [man, node] = [this, findDOMNode(this.refs.man)];
+    const node = findDOMNode(this.man);
     // 键盘按下事件
-    document.addEventListener('keydown', function (e) {
-      moveFlag = e.keyCode;
-    })
+    document.addEventListener('keydown', ({keyCode}) => {moveFlag = keyCode})
     // 键盘抬起事件
-    document.addEventListener('keyup', function (e) {
-      moveFlag = -1;
-    })
+    document.addEventListener('keyup', () => moveFlag = -1)
     // 动画结束事件
-    node.addEventListener('webkitAnimationEnd', function () {
-      node.style.webkitAnimation = '';
-    }, false);
+    node.addEventListener('webkitAnimationEnd', () => node.style.webkitAnimation = '', false);
     // 循环播放
-    this.timer = setInterval(function () {
-      man.move(moveFlag);
-    }, 100);
+    setInterval(() => this.move(moveFlag), 100);
   }
 
   render() {
@@ -125,7 +116,7 @@ class Man extends Component {
     const [left, top] = [x * side, y * side]
     return (
       <div
-        ref='man'
+        ref={ man => this.man = man }
         style={{ left, top }}
         className={`man man-${type}`}
       />
