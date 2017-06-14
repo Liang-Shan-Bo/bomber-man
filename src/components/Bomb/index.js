@@ -8,12 +8,12 @@ class Bomb extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bomb: { x: 0, y: 0 },
+      bomb: {},
     }
   }
 
   render() {
-    const { bomb: { x, y } } = this.state
+    const { x, y } = this.props
     const [left, top] = [x * side, y * side]
     console.log(left)
     return (

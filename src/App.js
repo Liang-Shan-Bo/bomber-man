@@ -30,13 +30,15 @@ class App extends Component {
 
   getBombs = () => {
     const result = []
-    this.state.bombs.forEach((i) => result.push(<Bomb key={i} x={Math.trunc(i / 9)} y={i % 9}/>))
+    this.state.bombs.forEach((i) => result.push(<Bomb key={i} x={i % 9} y={Math.trunc(i / 9)}  />))
     return result;
   }
 
   setBombs = (x, y) => {
     this.state.bombs.add(x + y * 9)
-    this.getBombs()
+    this.setState({
+      bombs: this.state.bombs,
+    })
   }
 
   componentDidMount() {

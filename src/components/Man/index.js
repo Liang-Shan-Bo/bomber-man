@@ -21,8 +21,9 @@ class Man extends Component {
     }
   }
 
-  setBomb = (x, y) => {
-    this.props.setBombs(Math.round(x), Math.round(y));
+  setBomb = () => {
+    console.log('x:' + this.state.man.x)
+    this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y));
   }
 
   // 移动
@@ -96,10 +97,6 @@ class Man extends Component {
         }
         node.style.webkitAnimation = 'down 0.25s steps(1, end) 1';
         break
-      case 32:
-        // 空格
-        this.setBomb(x, y);
-        break
       default:
         break
     }
@@ -115,9 +112,13 @@ class Man extends Component {
   componentDidMount() {
     const node = findDOMNode(this.man);
     // 键盘按下事件
-    document.addEventListener('keydown', ({ keyCode }) => moveFlag = keyCode)
+    document.addEventListener('keydown', ({ keyCode }) => keyCode === 32 ? this.setBomb() : moveFlag = keyCode)
     // 键盘抬起事件
-    document.addEventListener('keyup', () => moveFlag = -1)
+    document.addEventListener('keyup', ({ keyCode }) => {
+      if ([37, 38, 39, 40].indexOf(keyCode) > -1) {
+        moveFlag = -1
+      }
+    })
     // 动画结束事件
     node.addEventListener('webkitAnimationEnd', () => node.style.webkitAnimation = '', false);
     // 循环播放
