@@ -32,7 +32,21 @@ class App extends Component {
 
   getBombs = () => {
     const result = []
+<<<<<<< HEAD
     this.state.bombs.forEach((value, key) => result.push(<Bomb blowUp={this.blowUp} deleteBomb={this.deleteBomb} key={key} x={key % 9} y={Math.trunc(key / 9)} power={value} />))
+=======
+    this.state.bombs.forEach(i => {
+      const x = i % 9, y = Math.trunc(i / 9);
+      result.push(
+        <Bomb
+          deleteBomb={this.deleteBomb(x, y)}
+          key={i}
+          x={x}
+          y={y}
+        />
+      )
+    })
+>>>>>>> origin/master
     return result;
   }
 
@@ -49,8 +63,13 @@ class App extends Component {
     })
   }
 
+<<<<<<< HEAD
   deleteBomb = (x, y) => {
     this.setState(({ bombs }) => {
+=======
+  deleteBomb = (x, y) => () => {
+    this.setState(({bombs}) => {
+>>>>>>> origin/master
       bombs.delete(x + y * 9);
       return bombs;
     })
