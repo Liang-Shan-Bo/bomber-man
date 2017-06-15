@@ -24,6 +24,7 @@ class Bomb extends Component {
 
   componentDidMount() {
     const node = findDOMNode(this.bomb);
+    let bomb = this;
     // 生成雷之后开始播放准备爆炸动画
     node.style.webkitAnimation = 'ready 1s steps(1, end) 5';
     //动画结束时事件 
