@@ -22,7 +22,6 @@ class Man extends Component {
   }
 
   setBomb = () => {
-    console.log('x:' + this.state.man.x)
     this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y));
   }
 

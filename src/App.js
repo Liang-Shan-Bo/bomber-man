@@ -30,13 +30,20 @@ class App extends Component {
 
   getBombs = () => {
     const result = []
-    this.state.bombs.forEach((i) => result.push(<Bomb key={i} x={i % 9} y={Math.trunc(i / 9)}  />))
+    this.state.bombs.forEach((i) => result.push(<Bomb deleteBomb={this.deleteBomb} key={i} x={i % 9} y={Math.trunc(i / 9)}  />))
     return result;
   }
 
   setBombs = (x, y) => {
     this.setState(({bombs}) => {
       bombs.add(x + y * 9);
+      return bombs;
+    })
+  }
+
+  deleteBomb = (x, y) => {
+    this.setState(({bombs}) => {
+      bombs.delete(x + y * 9);
       return bombs;
     })
   }

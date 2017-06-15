@@ -12,10 +12,32 @@ class Bomb extends Component {
     }
   }
 
+  deleteBomb = () => {
+    const { x, y } = this.props;
+    this.props.deleteBomb(x, y);
+  }
+
+  componentDidMount() {
+    const node = findDOMNode(this.bomb);
+    let bomb = this;
+    // 生成雷之后开始播放准备爆炸动画
+    node.style.webkitAnimation = 'ready 1s steps(1, end) 5';
+    //动画结束时事件 
+    node.addEventListener('webkitAnimationEnd', function () {
+      switch (node.style.animationName) {
+        case 'ready':
+          node.style.webkitAnimation = 'blow-up 1s steps(1, end) 1 forwards';
+          break;
+        default:
+          bomb.deleteBomb();
+          break;
+      }
+    }, false);
+  }
+
   render() {
     const { x, y } = this.props
     const [left, top] = [x * side, y * side]
-    console.log(left)
     return (
       <div
         ref={bomb => this.bomb = bomb}
