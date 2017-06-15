@@ -1,0 +1,17 @@
+.fire {
+  background:url(bomb.png);
+  background-repeat:no-repeat;
+  height: 32px;
+  width: 32px;
+  vertical-align: text-top;
+  position: absolute;
+  background-position: 0px 0px;
+}
+
+@keyframes blow-up {
+    0% { background-position: 0px 0px;}
+    25%{ background-position: -32px 0px;}
+    50% {background-position: 0px -32px;}
+    75% {background-position: -32px -32px;}
+    100% {background-position: -32px 96px;}
+}

@@ -4,6 +4,7 @@ import './style.css';
 
 const side = 32;
 let moveFlag = -1;
+let [power, count] = [1, 1];
 
 class Man extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Man extends Component {
       man: { x: 0, y: 0, type: 'left' },
     }
   }
-
+  // 位移
   parseToFixed = (num, ope) => {
     if (ope === 0) {
       return Number.parseFloat((num - 0.1).toFixed(1));
@@ -20,9 +21,28 @@ class Man extends Component {
       return Number.parseFloat((num + 0.1).toFixed(1));
     }
   }
-
+  // 放置地雷
   setBomb = () => {
-    this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y));
+    this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y), power);
+  }
+  // 碰撞判断
+  collision = () => {
+    const { maps } = this.props;
+    let { x, y } = this.state.man;
+    let item = maps[Math.round(y)][Math.round(x)];
+    if (item !== 'lawn') {
+      switch (item) {
+        case 'power':
+          power++;
+          break;
+        case 'door':
+          alert('胜利');
+          break;
+        default:
+          break;
+      }
+      this.props.touchItem(Math.round(x), Math.round(y));
+    }
   }
 
   // 移动
@@ -42,7 +62,7 @@ class Man extends Component {
             x = this.parseToFixed(x, 0);
           }
         } else {
-          if (y > 0 && ((y % 1 === 0 && maps[y - 1][x] === 'lawn') || y % 1 !== 0)) {
+          if (y > 0 && ((y % 1 === 0 && maps[y - 1][x] !== 'wall' && maps[y - 1][x] !== 'iron') || y % 1 !== 0)) {
             y = this.parseToFixed(y, 0);
           }
         }
@@ -58,7 +78,7 @@ class Man extends Component {
             y = this.parseToFixed(y, 0);
           }
         } else {
-          if (x > 0 && ((x % 1 === 0 && maps[y][x - 1] === 'lawn') || x % 1 !== 0)) {
+          if (x > 0 && ((x % 1 === 0 && maps[y][x - 1] !== 'wall' && maps[y][x - 1] !== 'iron') || x % 1 !== 0)) {
             x = this.parseToFixed(x, 0);
           }
         }
@@ -74,7 +94,7 @@ class Man extends Component {
             y = this.parseToFixed(y, 0);
           }
         } else {
-          if (x < 8 && ((x % 1 === 0 && maps[y][x + 1] === 'lawn') || x % 1 !== 0)) {
+          if (x < 8 && ((x % 1 === 0 && maps[y][x + 1] !== 'wall' && maps[y][x + 1] !== 'iron') || x % 1 !== 0)) {
             x = this.parseToFixed(x, 1);
           }
         }
@@ -90,7 +110,7 @@ class Man extends Component {
             x = this.parseToFixed(x, 0);
           }
         } else {
-          if (y < 4 && ((y % 1 === 0 && maps[y + 1][x] === 'lawn') || y % 1 !== 0)) {
+          if (y < 4 && ((y % 1 === 0 && maps[y + 1][x] !== 'wall' && maps[y + 1][x] !== 'iron') || y % 1 !== 0)) {
             y = this.parseToFixed(y, 1);
           }
         }
@@ -99,6 +119,8 @@ class Man extends Component {
       default:
         break
     }
+    // 碰撞判断
+    this.collision()
     this.setState({
       man: {
         x,

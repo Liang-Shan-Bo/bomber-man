@@ -14,11 +14,3 @@
     66.7% {background-position: 0px -96px;}
     100% {background-position: -32px -64px;}
 }
-
-@keyframes blow-up {
-    0% { background-position: 0px 0px;}
-    25%{ background-position: -32px 0px;}
-    50% {background-position: 0px -32px;}
-    75% {background-position: -32px -32px;}
-    100% {background-position: -32px 96px;}
-}

@@ -13,8 +13,13 @@ class Bomb extends Component {
   }
 
   deleteBomb = () => {
-    const { x, y } = this.props;
-    this.props.deleteBomb(x, y);
+    const { x, y, deleteBomb } = this.props;
+    deleteBomb(x, y);
+  }
+
+  blowUp = () => {
+    const { x, y, power, blowUp } = this.props;
+    blowUp(x, y, power);
   }
 
   componentDidMount() {
@@ -24,28 +29,22 @@ class Bomb extends Component {
     node.style.webkitAnimation = 'ready 1s steps(1, end) 5';
     //动画结束时事件 
     node.addEventListener('webkitAnimationEnd', function () {
-      switch (node.style.animationName) {
-        case 'ready':
-          node.style.webkitAnimation = 'blow-up 1s steps(1, end) 1 forwards';
-          break;
-        default:
-          bomb.deleteBomb();
-          break;
-      }
+      bomb.blowUp();
+      bomb.deleteBomb();
     }, false);
   }
 
-  render() {
-    const { x, y } = this.props
-    const [left, top] = [x * side, y * side]
-    return (
-      <div
-        ref={bomb => this.bomb = bomb}
-        style={{ left, top }}
-        className={`bomb`}
-      />
-    );
-  }
+render() {
+  const { x, y } = this.props
+  const [left, top] = [x * side, y * side]
+  return (
+    <div
+      ref={bomb => this.bomb = bomb}
+      style={{ left, top }}
+      className={`bomb`}
+    />
+  );
+}
 }
 
 export default Bomb;
