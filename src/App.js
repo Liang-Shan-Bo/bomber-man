@@ -30,7 +30,17 @@ class App extends Component {
 
   getBombs = () => {
     const result = []
-    this.state.bombs.forEach((i) => result.push(<Bomb deleteBomb={this.deleteBomb} key={i} x={i % 9} y={Math.trunc(i / 9)}  />))
+    this.state.bombs.forEach(i => {
+      const x = i % 9, y = Math.trunc(i / 9);
+      result.push(
+        <Bomb
+          deleteBomb={this.deleteBomb}
+          key={i}
+          x={x}
+          y={y}
+        />
+      )
+    })
     return result;
   }
 
@@ -41,7 +51,7 @@ class App extends Component {
     })
   }
 
-  deleteBomb = (x, y) => {
+  deleteBomb = (x, y) => () => {
     this.setState(({bombs}) => {
       bombs.delete(x + y * 9);
       return bombs;
