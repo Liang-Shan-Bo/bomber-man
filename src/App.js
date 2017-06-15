@@ -34,7 +34,7 @@ class App extends Component {
       const x = i % 9, y = Math.trunc(i / 9);
       result.push(
         <Bomb
-          deleteBomb={this.deleteBomb}
+          deleteBomb={this.deleteBomb(x, y)}
           key={i}
           x={x}
           y={y}
