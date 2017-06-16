@@ -50,35 +50,10 @@ class App extends Component {
     })
   }
 
-  deleteBomb = (x, y) => {
-    this.setState(({ bombs }) => {
-      bombs.delete(x + y * 9);
-      return bombs;
-    })
-
-  }
-
-  deleteFire = (x, y) => {
-    this.setState(({ fires }) => {
-      fires.delete(x + y * 9);
-      return fires;
-    })
-
-  }
-
-  touchItem = (x, y) => {
-    let maps = this.state.maps;
-    maps[y][x] = 'lawn';
-    this.setState({
-      maps,
-    })
-  }
-
-  blowUp = (x, y, power) => {
+  setFires = (x, y, power, fires) => {
     const item = ['wall', 'power', 'plural', 'speed', 'control']
     let i = 1;
     let maps = this.state.maps;
-    let fires = new Set();
     fires.add(x + y * 9);
     while (i <= power) {
       if (y + i < 5) {
@@ -131,9 +106,50 @@ class App extends Component {
       }
       i++;
     }
+    // 爆炸联动
+    this.state.bombs.forEach((value, key) => {
+      fires.forEach((set) => {
+        if (key === set) {
+          let [x, y] = [set % 9, Math.trunc(set / 9)];
+          this.deleteBomb(x, y);
+          fires = new Set([...fires, ...this.setFires(x, y, value, fires)]);
+        }
+      })
+    })
+    return fires;
+  }
+
+  deleteBomb = (x, y) => {
+    this.setState(({ bombs }) => {
+      bombs.delete(x + y * 9);
+      return bombs;
+    })
+
+  }
+
+  deleteFire = (x, y) => {
+    this.setState(({ fires }) => {
+      fires.delete(x + y * 9);
+      return fires;
+    })
+
+  }
+
+  touchItem = (x, y) => {
+    let maps = this.state.maps;
+    maps[y][x] = 'lawn';
+    this.setState({
+      maps,
+    })
+  }
+
+  // 爆炸
+  blowUp = (x, y, power) => {
+    let fires = new Set();
+    fires = this.setFires(x, y, power, fires);
     // 判断死亡
     Death.started.dispatch(fires);
-    
+
     this.setState({
       fires,
     })

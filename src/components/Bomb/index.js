@@ -29,8 +29,8 @@ class Bomb extends Component {
     node.style.webkitAnimation = 'ready 1s steps(1, end) 5';
     //动画结束时事件 
     node.addEventListener('webkitAnimationEnd', function () {
-      bomb.blowUp();
       bomb.deleteBomb();
+      bomb.blowUp();
     }, false);
   }
 

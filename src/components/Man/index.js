@@ -32,8 +32,10 @@ class Man extends Component {
   }
   // 2个正方形碰撞判断
   graphicCollision = (p1, p2) => {
-    console.log(p1, p2)
-    return true;
+    if (p2.x > p1.x - 1 && p2.x < p1.x + 1 && p2.y > p1.y - 1 && p2.y < p1.y + 1) {
+      return true;
+    }
+    return false;
   }
   // 位移
   parseToFixed = (num, ope) => {
