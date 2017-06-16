@@ -47,7 +47,9 @@ class Man extends Component {
   }
   // 放置地雷
   setBomb = () => {
-    this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y), power);
+    if (this.state.alive) {
+      this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y), power);
+    }
   }
   // 道具碰撞判断
   collision = () => {
@@ -60,7 +62,9 @@ class Man extends Component {
           power++;
           break;
         case 'door':
-          alert('胜利');
+          clearInterval(this.timer);
+          this.setState({ alive: false, });
+          alert('游戏结束');
           break;
         default:
           break;

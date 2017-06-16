@@ -50,7 +50,7 @@ class App extends Component {
     })
   }
 
-  setFires = (x, y, power, fires) => {
+  setFires = (x, y, power, fires = new Set()) => {
     const item = ['wall', 'power', 'plural', 'speed', 'control']
     let i = 1;
     let maps = this.state.maps;
@@ -61,6 +61,9 @@ class App extends Component {
           fires.add(x + (y + i) * 9);
         } else if (item.indexOf(maps[y + i][x]) > -1) {
           maps[y + i][x] = 'lawn';
+          break;
+        } else if (maps[y + i][x] === 'iron') {
+          break;
         }
       } else {
         break;
@@ -74,6 +77,9 @@ class App extends Component {
           fires.add(x + (y - i) * 9);
         } else if (item.indexOf(maps[y - i][x]) > -1) {
           maps[y - i][x] = 'lawn';
+          break;
+        } else if (maps[y - i][x] === 'iron') {
+          break;
         }
       } else {
         break;
@@ -87,6 +93,9 @@ class App extends Component {
           fires.add(x + i + y * 9);
         } else if (item.indexOf(maps[y][x + i]) > -1) {
           maps[y][x + i] = 'lawn';
+          break;
+        } else if ([y][x + i] === 'iron') {
+          break;
         }
       } else {
         break;
@@ -100,6 +109,9 @@ class App extends Component {
           fires.add(x - i + y * 9);
         } else if (item.indexOf(maps[y][x - i]) > -1) {
           maps[y][x - i] = 'lawn';
+          break;
+        } else if (maps[y][x - i] === 'iron') {
+          break;
         }
       } else {
         break;
@@ -145,8 +157,7 @@ class App extends Component {
 
   // 爆炸
   blowUp = (x, y, power) => {
-    let fires = new Set();
-    fires = this.setFires(x, y, power, fires);
+    const fires = this.setFires(x, y, power);
     // 判断死亡
     Death.started.dispatch(fires);
 
