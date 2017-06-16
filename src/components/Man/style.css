@@ -51,3 +51,12 @@
     66.7% {background-position: -96px -64px;}
     100% {background-position: -96px 0px;}
 }
+
+@keyframes death {
+    0% { background-position: 0px -128px;}
+    20%{ background-position: -96px -96px;}
+    40% {background-position: -64px -96px;}
+    60% {background-position: -32px -96px;}
+    80% {background-position: -0px -96px;}
+    100% {background-position: -32px -128px;}
+}

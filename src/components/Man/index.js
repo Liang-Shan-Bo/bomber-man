@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Death from '../../Death.js'
 import { findDOMNode } from 'react-dom';
 import './style.css';
 
@@ -9,9 +10,30 @@ let [power, count] = [1, 1];
 class Man extends Component {
   constructor(props) {
     super(props);
+    Death.started.add(this.onDeath); //add listener
     this.state = {
       man: { x: 0, y: 0, type: 'left' },
+      alive: true,
     }
+  }
+
+  onDeath = (sets) => {
+    const node = findDOMNode(this.man);
+    let { x, y } = this.state.man;
+    for (let set of sets) {
+      if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
+        node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
+        clearInterval(this.timer);
+        setTimeout(() => { this.setState({ alive: false, }) }, 1000);
+        setTimeout(() => { alert('游戏结束') }, 2000);
+        return;
+      }
+    }
+  }
+  // 2个正方形碰撞判断
+  graphicCollision = (p1, p2) => {
+    console.log(p1, p2)
+    return true;
   }
   // 位移
   parseToFixed = (num, ope) => {
@@ -25,7 +47,7 @@ class Man extends Component {
   setBomb = () => {
     this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y), power);
   }
-  // 碰撞判断
+  // 道具碰撞判断
   collision = () => {
     const { maps } = this.props;
     let { x, y } = this.state.man;
@@ -119,7 +141,7 @@ class Man extends Component {
       default:
         break
     }
-    // 碰撞判断
+    // 道具碰撞判断
     this.collision()
     this.setState({
       man: {
@@ -143,19 +165,15 @@ class Man extends Component {
     // 动画结束事件
     node.addEventListener('webkitAnimationEnd', () => node.style.webkitAnimation = '', false);
     // 循环播放
-    setInterval(() => this.move(moveFlag), 100);
+    this.timer = setInterval(() => this.move(moveFlag), 100);
   }
 
   render() {
-    const { man: { x, y, type } } = this.state
+    const { alive, man: { x, y, type } } = this.state
     const [left, top] = [x * side, y * side]
     return (
       <div>
-        <div
-          ref={man => this.man = man}
-          style={{ left, top }}
-          className={`man man-${type}`}
-        />
+        {alive && <div ref={man => this.man = man} style={{ left, top }} className={`man man-${type}`} />}
       </div>
     );
   }

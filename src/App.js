@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Death from './Death.js'
 import Maps from './components/Map';
 import Man from './components/Man';
 import Bomb from './components/Bomb';
@@ -74,13 +75,18 @@ class App extends Component {
   }
 
   blowUp = (x, y, power) => {
+    const item = ['wall', 'power', 'plural', 'speed', 'control']
     let i = 1;
     let maps = this.state.maps;
     let fires = new Set();
     fires.add(x + y * 9);
     while (i <= power) {
-      if (y + i < 5 && maps[y + i][x] === 'lawn') {
-        fires.add(x + (y + i) * 9);
+      if (y + i < 5) {
+        if (maps[y + i][x] === 'lawn') {
+          fires.add(x + (y + i) * 9);
+        } else if (item.indexOf(maps[y + i][x]) > -1) {
+          maps[y + i][x] = 'lawn';
+        }
       } else {
         break;
       }
@@ -88,8 +94,12 @@ class App extends Component {
     }
     i = 1;
     while (i <= power) {
-      if (y >= i && maps[y - i][x] === 'lawn') {
-        fires.add(x + (y - i) * 9);
+      if (y >= i) {
+        if (maps[y - i][x] === 'lawn') {
+          fires.add(x + (y - i) * 9);
+        } else if (item.indexOf(maps[y - i][x]) > -1) {
+          maps[y - i][x] = 'lawn';
+        }
       } else {
         break;
       }
@@ -97,8 +107,12 @@ class App extends Component {
     }
     i = 1;
     while (i <= power) {
-      if (x + i < 9 && maps[y][x + i] === 'lawn') {
-        fires.add(x + i + y * 9);
+      if (x + i < 9) {
+        if (maps[y][x + i] === 'lawn') {
+          fires.add(x + i + y * 9);
+        } else if (item.indexOf(maps[y][x + i]) > -1) {
+          maps[y][x + i] = 'lawn';
+        }
       } else {
         break;
       }
@@ -106,13 +120,20 @@ class App extends Component {
     }
     i = 1;
     while (i <= power) {
-      if (x >= i && maps[y][x - i] === 'lawn') {
-        fires.add(x - i + y * 9);
+      if (x >= i) {
+        if (maps[y][x - i] === 'lawn') {
+          fires.add(x - i + y * 9);
+        } else if (item.indexOf(maps[y][x - i]) > -1) {
+          maps[y][x - i] = 'lawn';
+        }
       } else {
         break;
       }
       i++;
     }
+    // 判断死亡
+    Death.started.dispatch(fires);
+    
     this.setState({
       fires,
     })
