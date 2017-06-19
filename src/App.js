@@ -13,7 +13,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      maps: [['lawn', 'lawn', 'lawn', 'door', 'lawn', 'wall', 'wall', 'lawn', 'lawn'],
+      maps: [['lawn', 'lawn', 'lawn', 'lawn', 'lawn', 'wall', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
       ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
