@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import Death from './Death.js'
 import Maps from './components/Map';
 import Man from './components/Man';
@@ -12,15 +13,16 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      maps: [['lawn', 'lawn', 'lawn', 'lawn', 'lawn', 'power', 'wall', 'lawn', 'lawn'],
+      maps: [['lawn', 'door', 'lawn', 'lawn', 'lawn', 'wall', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
       ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
-      ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
+      ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'wall']],
       bombs: new Map(),
       fires: new Set(),
       man: true,
       monster: true,
+      item: new Map([[5, 'power'], [44, 'door']]),
     }
   }
 
@@ -54,18 +56,26 @@ class App extends Component {
   }
 
   setFires = (x, y, power, fires = new Set()) => {
-    const item = ['wall', 'power', 'plural', 'speed', 'control']
+    const items = ['power', 'plural', 'speed', 'control'];
+    const item = this.state.item;
     let i = 1;
     let maps = this.state.maps;
     fires.add(x + y * 9);
     while (i <= power) {
       if (y + i < 5) {
-        if (maps[y + i][x] === 'lawn') {
+        if (maps[y + i][x] === 'lawn' || maps[y + i][x] === 'door') {
           fires.add(x + (y + i) * 9);
-        } else if (item.indexOf(maps[y + i][x]) > -1) {
+        } else if (items.indexOf(maps[y + i][x]) > -1) {
           maps[y + i][x] = 'lawn';
           break;
         } else if (maps[y + i][x] === 'iron') {
+          break;
+        } else if (maps[y + i][x] === 'wall') {
+          if (item.has(x + (y + i) * 9)) {
+            maps[y + i][x] = item.get(x + (y + i) * 9);
+          } else {
+            maps[y + i][x] = 'lawn';
+          }
           break;
         }
       } else {
@@ -76,12 +86,19 @@ class App extends Component {
     i = 1;
     while (i <= power) {
       if (y >= i) {
-        if (maps[y - i][x] === 'lawn') {
+        if (maps[y - i][x] === 'lawn' || maps[y - i][x] === 'door') {
           fires.add(x + (y - i) * 9);
-        } else if (item.indexOf(maps[y - i][x]) > -1) {
+        } else if (items.indexOf(maps[y - i][x]) > -1) {
           maps[y - i][x] = 'lawn';
           break;
         } else if (maps[y - i][x] === 'iron') {
+          break;
+        } else if (maps[y - i][x] === 'wall') {
+          if (item.has(x + (y - i) * 9)) {
+            maps[y - i][x] = item.get(x + (y - i) * 9);
+          } else {
+            maps[y - i][x] = 'lawn';
+          }
           break;
         }
       } else {
@@ -92,12 +109,19 @@ class App extends Component {
     i = 1;
     while (i <= power) {
       if (x + i < 9) {
-        if (maps[y][x + i] === 'lawn') {
+        if (maps[y][x + i] === 'lawn' || maps[y][x + i] === 'door') {
           fires.add(x + i + y * 9);
-        } else if (item.indexOf(maps[y][x + i]) > -1) {
+        } else if (items.indexOf(maps[y][x + i]) > -1) {
           maps[y][x + i] = 'lawn';
           break;
         } else if ([y][x + i] === 'iron') {
+          break;
+        } else if (maps[y][x + i] === 'wall') {
+          if (item.has(x + i + y * 9)) {
+            maps[y][x + i] = item.get(x + i + y * 9);
+          } else {
+            maps[y][x + i] = 'lawn';
+          }
           break;
         }
       } else {
@@ -108,12 +132,19 @@ class App extends Component {
     i = 1;
     while (i <= power) {
       if (x >= i) {
-        if (maps[y][x - i] === 'lawn') {
+        if (maps[y][x - i] === 'lawn' || maps[y][x - i] === 'door') {
           fires.add(x - i + y * 9);
-        } else if (item.indexOf(maps[y][x - i]) > -1) {
+        } else if (items.indexOf(maps[y][x - i]) > -1) {
           maps[y][x - i] = 'lawn';
           break;
         } else if (maps[y][x - i] === 'iron') {
+          break;
+        } else if (maps[y][x - i] === 'wall') {
+          if (item.has(x - i + y * 9)) {
+            maps[y][x - i] = item.get(x - i + y * 9);
+          } else {
+            maps[y][x - i] = 'lawn';
+          }
           break;
         }
       } else {
@@ -150,6 +181,10 @@ class App extends Component {
 
   }
 
+  getMonster = () => {
+    return this.state.monster ? 1 : 0;
+  }
+
   touchItem = (x, y) => {
     let maps = this.state.maps;
     maps[y][x] = 'lawn';
@@ -176,7 +211,7 @@ class App extends Component {
         {this.getMaps()}
         {this.getBombs()}
         {this.getFires()}
-        {man && <Man setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />}
+        {man && <Man getMonster={this.getMonster} setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />}
         {monster && <Monster maps={this.state.maps} bombs={this.state.bombs} />}
       </div>
     );

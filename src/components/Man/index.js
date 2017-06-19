@@ -67,6 +67,10 @@ class Man extends Component {
       this.props.setBombs(Math.round(this.state.man.x), Math.round(this.state.man.y), power);
     }
   }
+  // 获取剩余怪物数量
+  getMonster = () => {
+    return this.props.getMonster();
+  }
   // 道具碰撞判断
   collision = () => {
     const { maps } = this.props;
@@ -78,9 +82,12 @@ class Man extends Component {
           power++;
           break;
         case 'door':
+          if (this.getMonster() > 0) {
+            return;
+          }
           clearInterval(this.timer);
           this.setState({ alive: false, });
-          alert('游戏结束');
+          alert('游戏胜利');
           break;
         default:
           break;
