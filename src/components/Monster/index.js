@@ -11,7 +11,7 @@ class Monster extends Component {
     super(props);
     Death.monster.add(this.onDeath); //add listener
     this.state = {
-      monster: { x: 1, y: 0 },
+      monster: { x: 7, y: 4 },
       alive: true,
     }
   }
