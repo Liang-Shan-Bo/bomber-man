@@ -11,7 +11,7 @@ class Monster extends Component {
     super(props);
     Death.monster.add(this.onDeath); //add listener
     this.state = {
-      monster: { x: 7, y: 4 },
+      monster: { x: 0, y: 1 },
       alive: true,
     }
   }
@@ -22,8 +22,8 @@ class Monster extends Component {
     for (let set of sets) {
       if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
         clearInterval(this.timer);
-        node.style.webkitAnimation = 'death-monster 1s steps(1, end) 1 forwards';
-        setTimeout(() => { this.setState({ alive: false, }) }, 1000);
+        node.style.webkitAnimation = 'death-monster 3s steps(1, end) 1 forwards';
+        setTimeout(() => { this.setState({ alive: false, }) }, 3000);
         return;
       }
     }
