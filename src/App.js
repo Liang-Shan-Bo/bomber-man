@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Death from './Death.js'
 import Maps from './components/Map';
 import Man from './components/Man';
+import Monster from './components/Monster';
 import Bomb from './components/Bomb';
 import Fire from './components/Fire';
 import './App.css';
@@ -159,8 +160,8 @@ class App extends Component {
   blowUp = (x, y, power) => {
     const fires = this.setFires(x, y, power);
     // 判断死亡
-    Death.started.dispatch(fires);
-
+    Death.man.dispatch(fires);
+    Death.monster.dispatch(fires);
     this.setState({
       fires,
     })
@@ -173,6 +174,7 @@ class App extends Component {
         {this.getBombs()}
         {this.getFires()}
         <Man setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />
+        <Monster maps={this.state.maps} />
       </div>
     );
   }

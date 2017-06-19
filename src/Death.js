@@ -1,5 +1,6 @@
 import Signal from 'signals';
 const Death = {
-      started: new Signal()
+      man: new Signal(),
+      monster: new Signal(),
 }
 export default Death

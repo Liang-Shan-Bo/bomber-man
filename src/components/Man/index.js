@@ -10,13 +10,14 @@ let [power, count] = [1, 1];
 class Man extends Component {
   constructor(props) {
     super(props);
-    Death.started.add(this.onDeath); //add listener
+    Death.man.add(this.onDeath); //add listener
     this.state = {
       man: { x: 0, y: 0, type: 'left' },
       alive: true,
     }
   }
 
+  // 角色死亡
   onDeath = (sets) => {
     const node = findDOMNode(this.man);
     let { x, y } = this.state.man;
@@ -32,7 +33,7 @@ class Man extends Component {
   }
   // 2个正方形碰撞判断
   graphicCollision = (p1, p2) => {
-    if (p2.x > p1.x - 1 && p2.x < p1.x + 1 && p2.y > p1.y - 1 && p2.y < p1.y + 1) {
+    if (p2.x > p1.x - 0.8 && p2.x < p1.x + 0.8 && p2.y > p1.y - 0.8 && p2.y < p1.y + 0.8) {
       return true;
     }
     return false;
