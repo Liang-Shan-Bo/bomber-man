@@ -11,7 +11,7 @@ class Monster extends Component {
     super(props);
     Death.monster.add(this.onDeath); //add listener
     this.state = {
-      monster: { x: 7, y: 4 },
+      monster: { x: 0, y: 1 },
       alive: true,
     }
   }
@@ -24,9 +24,14 @@ class Monster extends Component {
         clearInterval(this.timer);
         node.style.webkitAnimation = 'death-monster 3s steps(1, end) 1 forwards';
         setTimeout(() => { this.setState({ alive: false, }) }, 3000);
+        this.deleteMonster();
         return;
       }
     }
+  }
+  // 删除怪物
+  deleteMonster = () => {
+    return this.props.deleteMonster();
   }
   // 2个正方形碰撞判断
   graphicCollision = (p1, p2) => {

@@ -13,7 +13,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      maps: [['lawn', 'lawn', 'lawn', 'lawn', 'lawn', 'wall', 'wall', 'lawn', 'lawn'],
+      maps: [['lawn', 'lawn', 'lawn', 'door', 'lawn', 'wall', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
       ['wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn', 'wall', 'lawn', 'lawn'],
       ['lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn', 'iron', 'lawn'],
@@ -181,6 +181,10 @@ class App extends Component {
 
   }
 
+  deleteMonster = () => {
+    this.state.monster = false;
+  }
+
   getMonster = () => {
     return this.state.monster ? 1 : 0;
   }
@@ -212,7 +216,7 @@ class App extends Component {
         {this.getBombs()}
         {this.getFires()}
         {man && <Man getMonster={this.getMonster} setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />}
-        {monster && <Monster maps={this.state.maps} bombs={this.state.bombs} />}
+        {monster && <Monster deleteMonster={this.deleteMonster} maps={this.state.maps} bombs={this.state.bombs} />}
       </div>
     );
   }
