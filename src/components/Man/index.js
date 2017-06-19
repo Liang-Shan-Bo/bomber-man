@@ -23,8 +23,8 @@ class Man extends Component {
     let { x, y } = this.state.man;
     for (let set of sets) {
       if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
-        node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
         clearInterval(this.timer);
+        node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
         setTimeout(() => { this.setState({ alive: false, }) }, 1000);
         setTimeout(() => { alert('游戏结束') }, 2000);
         return;

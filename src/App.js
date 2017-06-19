@@ -19,6 +19,8 @@ class App extends Component {
       ['lawn', 'lawn', 'lawn', 'lawn', 'wall', 'lawn', 'wall', 'lawn', 'door']],
       bombs: new Map(),
       fires: new Set(),
+      man: true,
+      monster: true,
     }
   }
 
@@ -168,13 +170,14 @@ class App extends Component {
   }
 
   render() {
+    const { man, monster } = this.state
     return (
       <div>
         {this.getMaps()}
         {this.getBombs()}
         {this.getFires()}
-        <Man setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />
-        <Monster maps={this.state.maps} />
+        {man && <Man setBombs={this.setBombs} touchItem={this.touchItem} maps={this.state.maps} />}
+        {monster && <Monster maps={this.state.maps} bombs={this.state.bombs} />}
       </div>
     );
   }

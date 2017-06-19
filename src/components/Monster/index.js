@@ -21,8 +21,9 @@ class Monster extends Component {
     let { x, y } = this.state.monster;
     for (let set of sets) {
       if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
-        node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
         clearInterval(this.timer);
+        node.style.webkitAnimation = 'death-monster 1s steps(1, end) 1 forwards';
+        setTimeout(() => { this.setState({ alive: false, }) }, 1000);
         return;
       }
     }
@@ -44,23 +45,30 @@ class Monster extends Component {
   }
   // 传说中的AI
   randomMove = () => {
-    const { maps } = this.props;
+    const { maps, bombs } = this.props;
     let { x, y } = this.state.monster;
     let set = new Set();
-    if (y > 0 && ((y % 1 === 0 && maps[y - 1][x] !== 'wall' && maps[y - 1][x] !== 'iron') || y % 1 !== 0)) {
-      set.add(1);
+    if (y > 0 && (y % 1 !== 0 || (y % 1 === 0 && maps[y - 1][x] !== 'wall' && maps[y - 1][x] !== 'iron'))) {
+      if (!bombs.has((y - 1) * 9 + x)) {
+        set.add(1);
+      }
     }
-    if (x > 0 && ((x % 1 === 0 && maps[y][x - 1] !== 'wall' && maps[y][x - 1] !== 'iron') || x % 1 !== 0)) {
-      set.add(0);
+    if (x > 0 && (x % 1 !== 0 || (x % 1 === 0 && maps[y][x - 1] !== 'wall' && maps[y][x - 1] !== 'iron'))) {
+      if (!bombs.has(y * 9 + x - 1)) {
+        set.add(0);
+      }
     }
-    if (x < 8 && ((x % 1 === 0 && maps[y][x + 1] !== 'wall' && maps[y][x + 1] !== 'iron') || x % 1 !== 0)) {
-      set.add(2);
+    if (x < 8 && (x % 1 !== 0 || (x % 1 === 0 && maps[y][x + 1] !== 'wall' && maps[y][x + 1] !== 'iron'))) {
+      if (!bombs.has(y * 9 + x + 1)) {
+        set.add(2);
+      }
     }
-    if (y < 4 && ((y % 1 === 0 && maps[y + 1][x] !== 'wall' && maps[y + 1][x] !== 'iron') || y % 1 !== 0)) {
-      set.add(3);
+    if (y < 4 && (y % 1 !== 0 || (y % 1 === 0 && maps[y + 1][x] !== 'wall' && maps[y + 1][x] !== 'iron'))) {
+      if (!bombs.has((y + 1) * 9 + x)) {
+        set.add(3);
+      }
     }
     let arr = Array.from(set);
-    console.log(arr)
     moveFlag = arr[Math.round(Math.random() * (arr.length - 1))] + 37;
   }
 
@@ -105,6 +113,9 @@ class Monster extends Component {
         y,
       },
     })
+    if (x % 1 === 0 && y % 1 === 0) {
+      this.randomMove();
+    }
   }
 
   componentDidMount() {
@@ -113,7 +124,6 @@ class Monster extends Component {
     node.addEventListener('webkitAnimationEnd', () => node.style.webkitAnimation = '', false);
     // 循环播放
     this.timer = setInterval(() => this.move(moveFlag), 100);
-    this.randomTimer = setInterval(() => this.randomMove(), 1000);
   }
 
   render() {
