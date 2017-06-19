@@ -5,6 +5,7 @@ import './style.css';
 
 const side = 32;
 let moveFlag = -1;
+let aliveFlag = true;
 let [power] = [1];
 
 class Man extends Component {
@@ -21,12 +22,13 @@ class Man extends Component {
   onDeath = (sets) => {
     const node = findDOMNode(this.man);
     let { man: { x, y }, alive } = this.state;
-    if (alive) {
+    if (aliveFlag) {
       if (sets instanceof Set) {
         for (let set of sets) {
           if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
             clearInterval(this.timer);
             node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
+            aliveFlag = false;
             setTimeout(() => { this.setState({ alive: false, }) }, 1000);
             setTimeout(() => { alert('游戏结束') }, 2000);
             return;
@@ -36,6 +38,7 @@ class Man extends Component {
         if (this.graphicCollision({ x: sets.x, y: sets.y }, { x: x, y: y })) {
           clearInterval(this.timer);
           node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
+          aliveFlag = false;
           setTimeout(() => { this.setState({ alive: false, }) }, 1000);
           setTimeout(() => { alert('游戏结束') }, 2000);
           return;
