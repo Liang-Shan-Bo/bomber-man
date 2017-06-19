@@ -5,7 +5,7 @@ import './style.css';
 
 const side = 32;
 let moveFlag = -1;
-let [power, count] = [1, 1];
+let [power] = [1];
 
 class Man extends Component {
   constructor(props) {
@@ -20,14 +20,26 @@ class Man extends Component {
   // 角色死亡
   onDeath = (sets) => {
     const node = findDOMNode(this.man);
-    let { x, y } = this.state.man;
-    for (let set of sets) {
-      if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
-        clearInterval(this.timer);
-        node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
-        setTimeout(() => { this.setState({ alive: false, }) }, 1000);
-        setTimeout(() => { alert('游戏结束') }, 2000);
-        return;
+    let { man: { x, y }, alive } = this.state;
+    if (alive) {
+      if (sets instanceof Set) {
+        for (let set of sets) {
+          if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
+            clearInterval(this.timer);
+            node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
+            setTimeout(() => { this.setState({ alive: false, }) }, 1000);
+            setTimeout(() => { alert('游戏结束') }, 2000);
+            return;
+          }
+        }
+      } else {
+        if (this.graphicCollision({ x: sets.x, y: sets.y }, { x: x, y: y })) {
+          clearInterval(this.timer);
+          node.style.webkitAnimation = 'death 1s steps(1, end) 1 forwards';
+          setTimeout(() => { this.setState({ alive: false, }) }, 1000);
+          setTimeout(() => { alert('游戏结束') }, 2000);
+          return;
+        }
       }
     }
   }

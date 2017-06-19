@@ -11,7 +11,7 @@ class Monster extends Component {
     super(props);
     Death.monster.add(this.onDeath); //add listener
     this.state = {
-      monster: { x: 7, y: 4 },
+      monster: { x: 1, y: 0 },
       alive: true,
     }
   }
@@ -106,7 +106,8 @@ class Monster extends Component {
       default:
         break
     }
-    node.style.webkitAnimation = 'move 1s steps(1, end) 1';
+    node.style.webkitAnimation = 'move 1s steps(1, end) infinite';
+    Death.man.dispatch({ x: x, y: y });
     this.setState({
       monster: {
         x,
@@ -119,9 +120,6 @@ class Monster extends Component {
   }
 
   componentDidMount() {
-    const node = findDOMNode(this.monster);
-    // 动画结束事件
-    node.addEventListener('webkitAnimationEnd', () => node.style.webkitAnimation = '', false);
     // 循环播放
     this.timer = setInterval(() => this.move(moveFlag), 100);
   }
