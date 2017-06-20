@@ -202,7 +202,9 @@ class App extends Component {
     const fires = this.setFires(x, y, power);
     // 判断死亡
     Death.man.dispatch(fires);
-    Death.monster.dispatch(fires);
+    if (this.state.monster) {
+      Death.monster.dispatch(fires);
+    }
     this.setState({
       fires,
     })

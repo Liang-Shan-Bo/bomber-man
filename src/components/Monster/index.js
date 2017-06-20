@@ -23,8 +23,7 @@ class Monster extends Component {
       if (this.graphicCollision({ x: set % 9, y: Math.trunc(set / 9) }, { x: x, y: y })) {
         clearInterval(this.timer);
         node.style.webkitAnimation = 'death-monster 3s steps(1, end) 1 forwards';
-        setTimeout(() => { this.setState({ alive: false, }) }, 3000);
-        this.deleteMonster();
+        setTimeout(() => { this.setState({ alive: false, }); this.deleteMonster(); }, 3000);
         return;
       }
     }
